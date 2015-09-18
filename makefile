@@ -11,7 +11,7 @@ all: run
 run: pokahandtas
 	./pokahandtas
 
-pokahandtas: card.o
+pokahandtas: card.o draw.o
 
 
 # vim:ft=make
