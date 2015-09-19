@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   full_deck(deck);
   Draw draw;
   int draw_size = 2;
-  Draw_init(&draw, draw_size, deck, FULL_DECK_SIZE, true);
+  Draw_init(&draw, draw_size, deck, FULL_DECK_SIZE, false, true);
   Card cards[draw_size];
   int count = 0;
   while (!Draw_next(&draw)) {

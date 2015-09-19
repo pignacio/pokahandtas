@@ -10,12 +10,13 @@
 
 #include "draw.h"
 
-void Draw_init(Draw* draw, int size, Card* cards, int cards_size, bool repeat) {
+void Draw_init(Draw* draw, int size, Card* cards, int cards_size, bool repeat, bool sorted) {
   draw->size = size;
   draw->cards = cards;
   draw->cards_size = cards_size;
   draw->draw_indexes = malloc(sizeof(int) * size);
   draw->repeat = repeat;
+  draw->sorted = sorted;
   memset(draw->draw_indexes, 0, sizeof(int) * size);
   draw->draw_indexes[0] = -1;
 }
@@ -30,7 +31,7 @@ void Draw_current(Draw* draw, Card* cards) {
   }
 }
 
-bool _Draw_advance(Draw *draw) {
+bool _Draw_advance(Draw* draw) {
   int index = 0;
   while (index != draw->size) {
     draw->draw_indexes[index]++;
@@ -43,7 +44,7 @@ bool _Draw_advance(Draw *draw) {
   return true;
 }
 
-bool _has_repeated(int *values, int size) {
+bool _has_repeated(int* values, int size) {
   for (int i = 0; i < size; ++i) {
     for (int j = i + 1; j < size; ++j) {
       if (values[i] == values[j])
@@ -53,10 +54,21 @@ bool _has_repeated(int *values, int size) {
   return false;
 }
 
-bool Draw_next(Draw *draw) {
-  while (!_Draw_advance(draw)) {
-    if (draw->repeat || !_has_repeated(draw->draw_indexes, draw->size))
+bool _are_sorted(int* values, int size) {
+  for (int i = 1; i < size; ++i) {
+    if (values[i - 1] > values[i])
       return false;
+  }
+  return true;
+}
+
+bool Draw_next(Draw* draw) {
+  while (!_Draw_advance(draw)) {
+    if (!draw->repeat && _has_repeated(draw->draw_indexes, draw->size))
+      continue;
+    if (draw->sorted && !_are_sorted(draw->draw_indexes, draw->size))
+      continue;
+    return false;
   }
   return true;
 }
