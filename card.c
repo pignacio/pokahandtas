@@ -60,3 +60,10 @@ void Card_text(Card* card, char* text) {
   sprintf(text, "%c%c", _Card_value_letter(card->value), Suit_letter(card->suit));
 }
 
+void DEBUG_Card_print(Card* cards, int size) {
+  char text[3];
+  for (int i = 0; i < size; ++i) {
+    Card_text(cards + i, text);
+    printf("%s", text);
+  }
+}

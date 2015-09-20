@@ -8,6 +8,7 @@
 #ifndef POKAHANDTAS_CARD_H_
 #define POKAHANDTAS_CARD_H_
 
+// TODO(pignacio): check suit order
 enum Suit { HEARTS, DIAMONDS, SPADES, CLUBS };
 
 #define CARD_SUIT_SIZE 4
@@ -27,5 +28,7 @@ void Card_assert_valid(Card* card);
 void Card_from_index(Card* card, int index);
 int Card_index(Card* card);
 void Card_text(Card* card, char* text);
+
+void DEBUG_Card_print(Card* cards, int size);
 
 #endif  // POKAHANDTAS_CARD_H_

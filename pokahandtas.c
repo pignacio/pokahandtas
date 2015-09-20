@@ -14,13 +14,6 @@
 #include "card.h"
 #include "draw.h"
 
-void print_card(Card *card) {
-  Card_assert_valid(card);
-  char text[2];
-  Card_text(card, text);
-  printf("%s", text);
-}
-
 void full_deck(Card *deck) {
   for (int i = 0; i <= CARD_MAX_INDEX; ++i) {
     Card_from_index(deck + i, i);
@@ -41,7 +34,7 @@ int main(int argc, char *argv[]) {
   while (!Draw_next(&draw)) {
     Draw_current(&draw, cards);
     for (int i = 0; i < draw_size; i++) {
-      print_card(&cards[i]);
+      DEBUG_Card_print(&cards[i], 1);
     }
     printf(" | ");
     count++;
