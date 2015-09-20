@@ -12,15 +12,14 @@
 
 #include "card.h"
 
-struct _Draw {
+typedef struct _Draw {
   int size;
   Card *cards;
   int cards_size;
   int *draw_indexes;
   bool repeat;
   bool sorted;
-};
-typedef struct _Draw Draw;
+} Draw;
 
 void Draw_init(Draw *draw, int size, Card *cards, int cards_size, bool repeat, bool sorted);
 void Draw_free(Draw *draw);

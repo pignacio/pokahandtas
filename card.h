@@ -15,11 +15,10 @@ enum Suit { HEARTS, DIAMONDS, SPADES, CLUBS };
 char Suit_letter(enum Suit suit);
 enum Suit Suit_parse(char letter);
 
-struct _Card {
+typedef struct _Card {
   enum Suit suit;
   int value;
-};
-typedef struct _Card Card;
+} Card;
 
 #define CARD_MAX_VALUE 13
 #define CARD_MAX_INDEX (CARD_MAX_VALUE * CARD_SUIT_SIZE - 1)
