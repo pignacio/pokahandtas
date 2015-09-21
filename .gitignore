@@ -34,3 +34,6 @@
 
 # Binary
 pokahandtas
+
+# Scons
+.sconsign.dblite

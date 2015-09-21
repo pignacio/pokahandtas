@@ -3,16 +3,14 @@
 # ignacio, 2015-09-17 22:01
 #
 
-CC=clang
-CFLAGS=-Wall
 
 all: run
 
-run: pokahandtas
-	./pokahandtas
+run: scons
+	./build/debug/pokahandtas
 
-pokahandtas: card.o draw.o
-
+scons:
+	scons
 
 # vim:ft=make
 #
