@@ -24,23 +24,23 @@ char Suit_letter(enum Suit suit) {
 }
 
 void Card_assert_valid(Card* card) {
-  assert(1 <= card->value && card->value <= CARD_MAX_VALUE);
+  assert(1 <= card->rank && card->rank <= CARD_MAX_RANK);
 }
 
 int Card_index(Card* card) {
   Card_assert_valid(card);
-  return card->suit * 13 + card->value - 1;
+  return card->suit * 13 + card->rank - 1;
 }
 
 void Card_from_index(Card* card, int index) {
   assert(0 <= index && index <= CARD_MAX_INDEX);
-  card->value = index % 13 + 1;
+  card->rank = index % 13 + 1;
   card->suit = index / 13;
 }
 
-char _Card_value_letter(int value) {
-  assert(0 < value && value <= CARD_MAX_VALUE);
-  switch (value) {
+char _Card_rank_letter(int rank) {
+  assert(0 < rank && rank <= CARD_MAX_RANK);
+  switch (rank) {
     case 1:
       return 'A';
     case 10:
@@ -52,12 +52,12 @@ char _Card_value_letter(int value) {
     case 13:
       return 'K';
     default:
-      return '0' + value;
+      return '0' + rank;
   }
 }
 
 void Card_text(Card* card, char* text) {
-  sprintf(text, "%c%c", _Card_value_letter(card->value), Suit_letter(card->suit));
+  sprintf(text, "%c%c", _Card_rank_letter(card->rank), Suit_letter(card->suit));
 }
 
 void DEBUG_Card_print(Card* cards, int size) {

@@ -18,11 +18,11 @@ enum Suit Suit_parse(char letter);
 
 typedef struct _Card {
   enum Suit suit;
-  int value;
+  int rank;
 } Card;
 
-#define CARD_MAX_VALUE 13
-#define CARD_MAX_INDEX (CARD_MAX_VALUE * CARD_SUIT_SIZE - 1)
+#define CARD_MAX_RANK 13
+#define CARD_MAX_INDEX (CARD_MAX_RANK * CARD_SUIT_SIZE - 1)
 
 void Card_assert_valid(Card* card);
 void Card_from_index(Card* card, int index);
