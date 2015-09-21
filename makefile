@@ -12,5 +12,10 @@ run: scons
 scons:
 	scons
 
+clean:
+	scons -c
+
+.PHONY: all run scons clean
+
 # vim:ft=make
 #

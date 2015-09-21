@@ -1,12 +1,23 @@
 
 release_env = Environment(
     CC='clang',
-    CCFLAGS=['-O2'],
+    CCFLAGS=[
+        '-Wall',
+        '-fcolor-diagnostics',
+        '-O2',
+    ],
 )  # yapf: disable
 
 debug_env = release_env.Copy(
-    CCFLAGS=['-g', '-fsanitize=address'],
-    LINKFLAGS=['-fsanitize=address'],
+    CCFLAGS=[
+        '-Wall',
+        '-g',
+        '-fsanitize=address',
+        '-fcolor-diagnostics',
+    ],
+    LINKFLAGS=[
+        '-fsanitize=address',
+    ],
 )  # yapf: disable
 
 SConscript('SConscript',
