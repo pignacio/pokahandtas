@@ -13,6 +13,7 @@
 
 #include "card.h"
 #include "draw.h"
+#include "score.h"
 
 void full_deck(Card *deck) {
   for (int i = 0; i <= CARD_MAX_INDEX; ++i) {
@@ -26,6 +27,7 @@ int main(int argc, char *argv[]) {
   puts("Hello world!");
   Card deck[FULL_DECK_SIZE];
   full_deck(deck);
+  Score_calculate(deck);
   Draw draw;
   int draw_size = 2;
   Draw_init(&draw, draw_size, deck, FULL_DECK_SIZE, false, true);
