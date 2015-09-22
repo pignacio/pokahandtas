@@ -5,20 +5,27 @@
  * Distributed under terms of the GPLv3 license.
  */
 
+#include <assert.h>
 #include <memory.h>
 #include <stdlib.h>
 
 #include "draw.h"
 
 void Draw_init(Draw* draw, int size, Card* cards, int cards_size, bool repeat, bool sorted) {
+  assert(cards_size > size);
   draw->size = size;
   draw->cards = cards;
   draw->cards_size = cards_size;
   draw->draw_indexes = malloc(sizeof(int) * size);
   draw->repeat = repeat;
   draw->sorted = sorted;
-  memset(draw->draw_indexes, 0, sizeof(int) * size);
-  draw->draw_indexes[0] = -1;
+  if (repeat) {
+    memset(draw->draw_indexes, 0, sizeof(int) * size);
+  } else {
+    for (int i = 0; i < size; ++i) {
+      draw->draw_indexes[i] = sorted ? i : size - i - 1;
+    }
+  }
 }
 
 void Draw_free(Draw* draw) {
@@ -31,7 +38,7 @@ void Draw_current(Draw* draw, Card* cards) {
   }
 }
 
-bool _Draw_advance(Draw* draw) {
+bool _ExDraw_advance(Draw* draw) {
   int index = 0;
   while (index != draw->size) {
     draw->draw_indexes[index]++;
@@ -39,6 +46,24 @@ bool _Draw_advance(Draw* draw) {
       return false;
     }
     draw->draw_indexes[index] = 0;
+    index++;
+  }
+  return true;
+}
+
+bool _Draw_advance(Draw* draw) {
+  int index = 0;
+  while (index != draw->size) {
+    int limit =
+        (draw->sorted && index < draw->size - 1) ? draw->draw_indexes[index + 1] : draw->cards_size;
+
+    draw->draw_indexes[index]++;
+
+    if (draw->draw_indexes[index] < limit) {
+      return false;
+    }
+    int start = (draw->sorted && index > 0) ? draw->draw_indexes[index - 1] : 0;
+    draw->draw_indexes[index] = start;
     index++;
   }
   return true;
@@ -65,8 +90,6 @@ bool _are_sorted(int* values, int size) {
 bool Draw_next(Draw* draw) {
   while (!_Draw_advance(draw)) {
     if (!draw->repeat && _has_repeated(draw->draw_indexes, draw->size))
-      continue;
-    if (draw->sorted && !_are_sorted(draw->draw_indexes, draw->size))
       continue;
     return false;
   }

@@ -32,19 +32,20 @@ int main(int argc, char *argv[]) {
   cards[0] = deck[0];
   cards[1] = deck[1];
   Draw draw;
-  Draw_init(&draw, draw_size - 1, deck + 1, FULL_DECK_SIZE - 1, false, true);
+  Draw_init(&draw, draw_size, deck, FULL_DECK_SIZE, false, true);
   int count = 0;
   int hand_count[SCOREDHANDS_MAX];
   memset(hand_count, 0, sizeof(int) * SCOREDHANDS_MAX);
-  while (!Draw_next(&draw)) {
+  do {
     if (count % 1000 == 0 && count > 0){
       printf("Processed: %d\n", count);
     }
-    Draw_current(&draw, cards + 2);
+    Draw_current(&draw, cards);
     Score score = Score_calculate(cards);
     hand_count[score.hand]++;
     count++;
   }
+  while (!Draw_next(&draw)) ;
   printf("\n");
   printf("Total count: %d\n", count);
   for (int i = 0; i < SCOREDHANDS_MAX; ++i) {
