@@ -57,10 +57,11 @@ Score Score_calculate(Card *cards) {
 
   bool is_flush = CardCount_has_n_suits_with_k(&count, 1, 5);
   bool is_straight = true;
-  for (int i = 0; i < 4; ++i) {
-    if (hand[i].rank + 1 != hand[i + 1].rank)
-      is_straight = false;
+  for (int i = 1; i < 4; ++i) {
+    is_straight &= hand[i].rank + 1 == hand[i + 1].rank;
   }
+  is_straight &= (hand[0].rank + 1 == hand[1].rank || (hand[0].rank == 1 && hand[4].rank == 13));
+
 
   Score score;
 
